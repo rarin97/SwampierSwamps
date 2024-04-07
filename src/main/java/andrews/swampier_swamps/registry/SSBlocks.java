@@ -21,8 +21,8 @@ import net.minecraft.world.level.material.PushReaction;
 public class SSBlocks
 {
     // Mud Blocks
-    public static final Block MUD_SLAB              = createBlock("mud_slab", new MudSlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD)));
-    public static final Block MUD_STAIRS            = createBlock("mud_stairs", new MudStairsBlock(Blocks.MUD.defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.MUD)));
+    public static final Block MUD_SLAB              = createBlock("mud_slab", new MudSlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD)));
+    public static final Block MUD_STAIRS            = createBlock("mud_stairs", new MudStairsBlock(Blocks.MUD.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.MUD)));
     // Frog Lights
     public static final Block WHITE_FROG_LIGHT      = createBlock("white_froglight", new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).strength(0.3F).lightLevel((brightness) -> 15).sound(SoundType.FROGLIGHT)));
     public static final Block MAGENTA_FROG_LIGHT    = createBlock("magenta_froglight", new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.3F).lightLevel((brightness) -> 15).sound(SoundType.FROGLIGHT)));
@@ -40,15 +40,15 @@ public class SSBlocks
     // Vines
     public static final Block SWAMP_VINE            = createBlock("swamp_vine", new SwampVineBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().randomTicks().strength(0.2F).sound(SoundType.VINE).ignitedByLava().pushReaction(PushReaction.DESTROY)));
     // Plants
-    public static final Block CATTAIL               = createBlock("cattail", new CattailBlock());
-    public static final Block SINKING_LILY_PAD      = createBlockNoItem("sinking_lily_pad", new SinkingLilyPad(BlockBehaviour.Properties.copy(Blocks.LILY_PAD)));
-    public static final Block BIG_LILY_PAD          = createWaterPlacementBlock("big_lily_pad", new BigLilyPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).randomTicks()));
-    public static final Block SMALL_LILY_PAD        = createWaterPlacementBlock("small_lily_pad", new SmallLilyPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).noCollission().randomTicks()));
+    public static final Block CATTAIL               = createBlock("cattail", new CattailBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).noCollission().instabreak().sound(SoundType.WET_GRASS)));
+    public static final Block SINKING_LILY_PAD      = createBlockNoItem("sinking_lily_pad", new SinkingLilyPad(BlockBehaviour.Properties.ofFullCopy(Blocks.LILY_PAD)));
+    public static final Block BIG_LILY_PAD          = createWaterPlacementBlock("big_lily_pad", new BigLilyPadBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LILY_PAD).randomTicks()));
+    public static final Block SMALL_LILY_PAD        = createWaterPlacementBlock("small_lily_pad", new SmallLilyPadBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LILY_PAD).noCollission().randomTicks()));
     // Kinda a Plant?
-    public static final Block DECAYING_KELP         = createBlock("decaying_kelp", new DecayingKelpBlock(BlockBehaviour.Properties.copy(Blocks.DRIED_KELP_BLOCK)));
+    public static final Block DECAYING_KELP         = createBlock("decaying_kelp", new DecayingKelpBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DRIED_KELP_BLOCK)));
     // Util
-    public static final Block FERTILE_FARMLAND      = createBlock("fertile_farmland", new FertileFarmlandBlock(BlockBehaviour.Properties.copy(Blocks.FARMLAND)));
-    public static final Block GAS_LAMP              = createBlock("gas_lamp", new GasLampBlock(BlockBehaviour.Properties.copy(Blocks.LANTERN)));
+    public static final Block FERTILE_FARMLAND      = createBlock("fertile_farmland", new FertileFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)));
+    public static final Block GAS_LAMP              = createBlock("gas_lamp", new GasLampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 
     public static void init() {}
 

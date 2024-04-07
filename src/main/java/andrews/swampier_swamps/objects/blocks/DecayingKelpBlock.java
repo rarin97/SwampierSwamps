@@ -2,6 +2,7 @@ package andrews.swampier_swamps.objects.blocks;
 
 import andrews.swampier_swamps.block_entities.DecayingKelpBlockEntity;
 import andrews.swampier_swamps.registry.SSParticles;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -15,6 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class DecayingKelpBlock extends BaseEntityBlock
 {
+    public MapCodec<? extends DecayingKelpBlock> codec() {
+        return DecayingKelpBlock.simpleCodec(DecayingKelpBlock::new);
+    }
+
     public DecayingKelpBlock(Properties properties)
     {
         super(properties);
