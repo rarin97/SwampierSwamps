@@ -1,5 +1,5 @@
 {
-  "type": "forge:add_features",
+  "type": "neoforge:add_features",
   "biomes": "minecraft:swamp",
   "features": "swampier_swamps:patch_small_lily_pad",
   "step": "vegetal_decoration"

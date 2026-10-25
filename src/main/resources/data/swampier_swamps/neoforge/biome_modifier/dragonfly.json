@@ -1,5 +1,5 @@
 {
-  "type": "forge:add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": "#swampier_swamps:has_dragonfly",
   "spawners": {
     "type": "swampier_swamps:dragonfly",
