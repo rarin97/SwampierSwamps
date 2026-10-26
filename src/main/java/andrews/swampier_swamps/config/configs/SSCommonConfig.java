@@ -2,10 +2,9 @@ package andrews.swampier_swamps.config.configs;
 
 import andrews.swampier_swamps.config.util.ConfigHelper;
 import andrews.swampier_swamps.config.util.ConfigHelper.ConfigValueListener;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-public class SSCommonConfig
-{
+public class SSCommonConfig {
     // Fertile Farmland
     public ConfigValueListener<Integer> waterRange;
     public ConfigValueListener<Integer> growthMultiplier;
@@ -30,10 +29,9 @@ public class SSCommonConfig
     public ConfigValueListener<Integer> lilyPadSinkTimeStage3;
     public ConfigValueListener<Integer> lilyPadResetTime;
 
-    public SSCommonConfig(ForgeConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber)
-    {
+    public SSCommonConfig(ModConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber) {
         builder.comment(" Common Settings for Swampier Swamps")
-               .push("Settings");
+                .push("Settings");
 
         builder.push("Fertile Farmland"); // Fertile Farmland Start
         waterRange = subscriber.subscribe(builder
@@ -118,7 +116,7 @@ public class SSCommonConfig
                         Values:\r
                         true: Lily Pads will break\r
                         false: Lily Pads wont break, and instead become collision-less (like dripleafs)""".indent(1)
-                ).define("doLilyPadsBreak", true));
+                ).define("doLilyPadsBreak", false));
 
         shouldLilyPadsGrow = subscriber.subscribe(builder
                 .comment("""

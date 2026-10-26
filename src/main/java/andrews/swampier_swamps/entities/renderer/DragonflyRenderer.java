@@ -9,10 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class DragonflyRenderer<E extends Dragonfly> extends MobRenderer<E, DragonflyModel<E>>
 {
-    private final ResourceLocation BLUE_PATH = new ResourceLocation(Reference.MODID, "textures/entity/dragonfly_blue.png");
-    private final ResourceLocation RED_PATH = new ResourceLocation(Reference.MODID, "textures/entity/dragonfly_red.png");
-    private final ResourceLocation ORANGE_PATH = new ResourceLocation(Reference.MODID, "textures/entity/dragonfly_orange.png");
-    private final ResourceLocation GREEN_PATH = new ResourceLocation(Reference.MODID, "textures/entity/dragonfly_green.png");
+    private final ResourceLocation BLUE_PATH = ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/dragonfly_blue.png");
+    private final ResourceLocation RED_PATH = ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/dragonfly_red.png");
+    private final ResourceLocation ORANGE_PATH = ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/dragonfly_orange.png");
+    private final ResourceLocation GREEN_PATH = ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/dragonfly_green.png");
 
     public DragonflyRenderer(EntityRendererProvider.Context context)
     {

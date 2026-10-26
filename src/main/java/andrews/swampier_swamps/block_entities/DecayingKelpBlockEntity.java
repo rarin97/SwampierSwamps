@@ -11,26 +11,20 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
-public class DecayingKelpBlockEntity extends BlockEntity
-{
+public class DecayingKelpBlockEntity extends BlockEntity {
     private int ticksSinceLastGas = 0;
 
-    public DecayingKelpBlockEntity(BlockPos pos, BlockState state)
-    {
+    public DecayingKelpBlockEntity(BlockPos pos, BlockState state) {
         super(SSBlockEntities.DECAYING_KELP.get(), pos, state);
         Random rand = new Random();
         ticksSinceLastGas = rand.nextInt(6000);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, DecayingKelpBlockEntity blockEntity)
-    {
-        if (!level.isClientSide)
-        {
+    public static void tick(Level level, BlockPos pos, BlockState state, DecayingKelpBlockEntity blockEntity) {
+        if (!level.isClientSide) {
             int ticksSinceLastGas = blockEntity.getTicksSinceLastGas();
-            if (ticksSinceLastGas >= 6000)
-            {
-                if(level.getFluidState(pos.above()).is(FluidTags.WATER))
-                {
+            if (ticksSinceLastGas >= 6000) {
+                if (level.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     SwampGas swampGas = SSEntities.SWAMP_GAS.get().create(level);
                     swampGas.moveTo(pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, 0.0F, 0.0F);
                     level.addFreshEntity(swampGas);
@@ -41,18 +35,15 @@ public class DecayingKelpBlockEntity extends BlockEntity
         }
     }
 
-    public int getTicksSinceLastGas()
-    {
+    public int getTicksSinceLastGas() {
         return this.ticksSinceLastGas;
     }
 
-    public void setTicksSinceLastGas(int ticksSinceLastGas)
-    {
+    public void setTicksSinceLastGas(int ticksSinceLastGas) {
         this.ticksSinceLastGas = ticksSinceLastGas;
     }
 
-    public void increaseTicksSinceLastGas()
-    {
+    public void increaseTicksSinceLastGas() {
         this.ticksSinceLastGas++;
     }
 }

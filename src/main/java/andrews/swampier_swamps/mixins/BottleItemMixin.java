@@ -21,14 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(BottleItem.class)
-public class BottleItemMixin
-{
+public class BottleItemMixin {
     @Inject(method = "use", at = @At(value = "HEAD"), cancellable = true)
-    public void injectUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir)
-    {
+    public void injectUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
         List<SwampGas> list = level.getEntitiesOfClass(SwampGas.class, player.getBoundingBox().inflate(2.0D), (entity) -> entity != null && entity.isAlive() && entity.isCould());
-        if (!list.isEmpty())
-        {
+        if (!list.isEmpty()) {
             list.get(0).tickCount += 50; // We increase the age of the SwampGas Entity, effectively reducing its life span
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL_DRAGONBREATH, SoundSource.NEUTRAL, 1.0F, 1.0F);
             player.awardStat(Stats.ITEM_USED.get(Items.GLASS_BOTTLE));

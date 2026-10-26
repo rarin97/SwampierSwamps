@@ -2,7 +2,7 @@ package andrews.swampier_swamps.level.features.trunk_placers;
 
 import andrews.swampier_swamps.registry.SSTrunkPlacers;
 import com.google.common.collect.Lists;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,18 +21,15 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.BiConsumer;
 
-public class BaldCypressTrunkPlacer extends TrunkPlacer
-{
-    public static final Codec<BaldCypressTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> trunkPlacerParts(instance).apply(instance, BaldCypressTrunkPlacer::new));
+public class BaldCypressTrunkPlacer extends TrunkPlacer {
+    public static final MapCodec<BaldCypressTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec((instance) -> trunkPlacerParts(instance).apply(instance, BaldCypressTrunkPlacer::new));
 
-    public BaldCypressTrunkPlacer(int baseHeight, int firstRandomHeight, int secondRandomHeight)
-    {
+    public BaldCypressTrunkPlacer(int baseHeight, int firstRandomHeight, int secondRandomHeight) {
         super(baseHeight, firstRandomHeight, secondRandomHeight);
     }
 
     @Override
-    protected TrunkPlacerType<?> type()
-    {
+    protected TrunkPlacerType<?> type() {
         return SSTrunkPlacers.BALD_CYPRESS_TRUNK_PLACER.get();
     }
 
@@ -48,11 +45,10 @@ public class BaldCypressTrunkPlacer extends TrunkPlacer
 
         List<Integer> lowerBranchHeights = Lists.newArrayList();
         // Places the center Logs
-        for(int i = 0; i < height; ++i)
-        {
+        for (int i = 0; i < height; ++i) {
             this.placeLog(level, consumer, rand, pos.above(i), config);
-            if((lowerBranchHeights.size() < 3) && (i > 3) && (i < height - 2))
-                if(rand.nextInt(2) == 0)
+            if ((lowerBranchHeights.size() < 3) && (i > 3) && (i < height - 2))
+                if (rand.nextInt(2) == 0)
                     lowerBranchHeights.add(pos.above(i).getY());
         }
         if (lowerBranchHeights.isEmpty()) // If the branches list is empty we generate one
@@ -77,8 +73,7 @@ public class BaldCypressTrunkPlacer extends TrunkPlacer
         createBranch(level, consumer, rand, height, pos, config, list, direction.getOpposite(), rand.nextInt(3) + 1);
         // The lower branches
         List<Direction> directions = Lists.newArrayList();
-        for (int branchHeight : lowerBranchHeights)
-        {
+        for (int branchHeight : lowerBranchHeights) {
             Direction branchDirection;
             do {
                 branchDirection = Direction.Plane.HORIZONTAL.getRandomDirection(rand);
@@ -91,58 +86,50 @@ public class BaldCypressTrunkPlacer extends TrunkPlacer
         return list;
     }
 
-    private void placeLogs(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, int height, int heightMod, BlockPos pos, TreeConfiguration config)
-    {
-        for(int i = 0; i < height + heightMod; ++i)
-        {
+    private void placeLogs(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, int height, int heightMod, BlockPos pos, TreeConfiguration config) {
+        for (int i = 0; i < height + heightMod; ++i) {
 //            this.placeLog(level, consumer, rand, pos.above(i), config);
-            if(TreeFeature.validTreePos(level, pos.above(i)) || level.isStateAtPosition(pos.above(i), state -> state.is(Blocks.OAK_SAPLING)))
+            if (TreeFeature.validTreePos(level, pos.above(i)) || level.isStateAtPosition(pos.above(i), state -> state.is(Blocks.OAK_SAPLING)))
                 consumer.accept(pos.above(i), config.trunkProvider.getState(rand, pos.above(i)));
         }
         if (rand.nextInt(3) == 0) // Places Mos Carpets over the bottom Logs
-            if(level.isStateAtPosition(pos.above(height + heightMod), BlockBehaviour.BlockStateBase::isAir))
+            if (level.isStateAtPosition(pos.above(height + heightMod), BlockBehaviour.BlockStateBase::isAir))
                 consumer.accept(pos.above(height + heightMod), Blocks.MOSS_CARPET.defaultBlockState());
     }
 
-    private void randomDiagonalLog(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, BlockPos pos, TreeConfiguration config)
-    {
+    private void randomDiagonalLog(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, BlockPos pos, TreeConfiguration config) {
         // Replaces all oak saplings in trunk range with air
-        if(level.isStateAtPosition(pos.above(), state -> state.is(Blocks.OAK_SAPLING)))
+        if (level.isStateAtPosition(pos.above(), state -> state.is(Blocks.OAK_SAPLING)))
             consumer.accept(pos.above(), Blocks.AIR.defaultBlockState());
         // Places the Logs
-        if(rand.nextInt(2) == 1)
-        {
+        if (rand.nextInt(2) == 1) {
             setDirtAt(level, consumer, rand, pos, config);
-            if(TreeFeature.validTreePos(level, pos.above()))
+            if (TreeFeature.validTreePos(level, pos.above()))
                 consumer.accept(pos.above(), config.trunkProvider.getState(rand, pos.above()));
         }
     }
 
-    private void createBranch(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, int height, BlockPos pos, TreeConfiguration config, List<FoliagePlacer.FoliageAttachment> list, Direction direction, int branchSize)
-    {
+    private void createBranch(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> consumer, RandomSource rand, int height, BlockPos pos, TreeConfiguration config, List<FoliagePlacer.FoliageAttachment> list, Direction direction, int branchSize) {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         OptionalInt optionalInt = OptionalInt.empty();
         int xPos = pos.getX();
         int zPos = pos.getZ();
         int logYOffset = 0;
 
-        for(int heightMod = 0; heightMod < branchSize; ++heightMod)
-        {
+        for (int heightMod = 0; heightMod < branchSize; ++heightMod) {
             int yPos = pos.getY() + height + logYOffset;
-            if(rand.nextInt(2) == 0)
+            if (rand.nextInt(2) == 0)
                 logYOffset++;
             xPos += direction.getStepX();
             zPos += direction.getStepZ();
 
-            if (this.placeLog(level, consumer, rand, mutableBlockPos.set(xPos, yPos, zPos), config))
-            {
+            if (this.placeLog(level, consumer, rand, mutableBlockPos.set(xPos, yPos, zPos), config)) {
                 // The location above the last placed log in the loop gets added to the foliage placer list
                 optionalInt = OptionalInt.of(yPos + 1);
             }
         }
 
-        if (optionalInt.isPresent())
-        {
+        if (optionalInt.isPresent()) {
             list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(xPos, optionalInt.getAsInt(), zPos), 1, false));
         }
     }

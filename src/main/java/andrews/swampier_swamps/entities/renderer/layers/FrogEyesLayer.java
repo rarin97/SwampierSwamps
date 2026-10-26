@@ -17,10 +17,10 @@ import net.minecraft.world.entity.animal.frog.Frog;
 
 public class FrogEyesLayer<T extends Frog> extends RenderLayer<T, FrogModel<T>>
 {
-    private static final RenderType FROG_EYES_SMALL_BASE = RenderType.entityCutout(new ResourceLocation(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_small.png"));
-    private static final RenderType FROG_EYES_LARGE_BASE = RenderType.entityCutout(new ResourceLocation(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_large.png"));
-    private static final RenderType FROG_EYES_SMALL = RenderType.eyes(new ResourceLocation(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_small.png"));
-    private static final RenderType FROG_EYES_LARGE = RenderType.eyes(new ResourceLocation(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_large.png"));
+    private static final RenderType FROG_EYES_SMALL_BASE = RenderType.entityCutout(ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_small.png"));
+    private static final RenderType FROG_EYES_LARGE_BASE = RenderType.entityCutout(ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_large.png"));
+    private static final RenderType FROG_EYES_SMALL = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_small.png"));
+    private static final RenderType FROG_EYES_LARGE = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Reference.MODID, "textures/entity/frog/eyes/frog_eyes_large.png"));
 
     public FrogEyesLayer(RenderLayerParent<T, FrogModel<T>> layerParent)
     {
@@ -35,16 +35,16 @@ public class FrogEyesLayer<T extends Frog> extends RenderLayer<T, FrogModel<T>>
             if (frog.getCustomName().getString().equals("Swallow Me Waldo") && SSConfigs.commonConfig.allowWaldo.get())
             {
                 VertexConsumer vertexconsumer = buffer.getBuffer(hasBigEyes(frog) ? FROG_EYES_LARGE_BASE : FROG_EYES_SMALL_BASE);
-                this.getParentModel().renderToBuffer(poseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 0.0F, 0.0F, 0.0F, 0.0F);
+                this.getParentModel().renderToBuffer(poseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY);
                 vertexconsumer = buffer.getBuffer(hasBigEyes(frog) ? FROG_EYES_LARGE : FROG_EYES_SMALL);
-                this.getParentModel().renderToBuffer(poseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getParentModel().renderToBuffer(poseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY);
             }
         }
     }
 
     private boolean hasBigEyes(Frog frog)
     {
-        FrogVariant variant = frog.getVariant();
+        FrogVariant variant = frog.getVariant().value();
         if(variant.equals(SSFrogVariants.BLUE_VARIANT.get()))
             return true;
         if(variant.equals(SSFrogVariants.CYAN_VARIANT.get()))

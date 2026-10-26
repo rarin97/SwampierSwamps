@@ -95,9 +95,9 @@ public class SwampGas extends Entity
     }
 
     @Override
-    protected void defineSynchedData()
+    protected void defineSynchedData(SynchedEntityData.Builder entityData)
     {
-        this.getEntityData().define(IS_CLOUD, false);
+        entityData.define(IS_CLOUD, false);
     }
 
     @Override

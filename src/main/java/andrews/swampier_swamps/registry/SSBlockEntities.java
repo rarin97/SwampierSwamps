@@ -3,19 +3,18 @@ package andrews.swampier_swamps.registry;
 import andrews.swampier_swamps.block_entities.DecayingKelpBlockEntity;
 import andrews.swampier_swamps.util.Reference;
 import com.google.common.collect.Sets;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class SSBlockEntities
-{
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID);
+import java.util.function.Supplier;
 
-    public static final RegistryObject<BlockEntityType<DecayingKelpBlockEntity>> DECAYING_KELP = BLOCK_ENTITY_TYPES.register("decaying_kelp", () -> new BlockEntityType<>(DecayingKelpBlockEntity::new, Sets.newHashSet(SSBlocks.DECAYING_KELP.get()), null));
+public class SSBlockEntities {
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Reference.MODID);
 
-    public static void registerBlockEntityRenderers()
-    {
+    public static final Supplier<BlockEntityType<DecayingKelpBlockEntity>> DECAYING_KELP = BLOCK_ENTITY_TYPES.register("decaying_kelp", () -> new BlockEntityType<>(DecayingKelpBlockEntity::new, Sets.newHashSet(SSBlocks.DECAYING_KELP.get()), null));
+
+    public static void registerBlockEntityRenderers() {
 
     }
 }

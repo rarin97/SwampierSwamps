@@ -4,7 +4,7 @@ import andrews.swampier_swamps.config.configs.SSClientConfig;
 import andrews.swampier_swamps.config.configs.SSCommonConfig;
 import andrews.swampier_swamps.config.util.ConfigHelper;
 import andrews.swampier_swamps.util.Reference;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfig;
 
 public class SSConfigs
 {

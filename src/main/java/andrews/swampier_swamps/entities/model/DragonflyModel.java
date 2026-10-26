@@ -15,17 +15,15 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 
 // Made with Blockbench by Apprentice Necromancer
-public class DragonflyModel<E extends Dragonfly> extends EntityModel<E>
-{
-    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation(Reference.MODID, "dragonfly"), "main");
+public class DragonflyModel<E extends Dragonfly> extends EntityModel<E> {
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MODID, "dragonfly"), "main");
     private final ModelPart body;
     private final ModelPart rightbackwing;
     private final ModelPart rightfrontwing;
     private final ModelPart leftbackwing;
     private final ModelPart leftfrontwing;
 
-    public DragonflyModel(ModelPart root)
-    {
+    public DragonflyModel(ModelPart root) {
         this.body = root.getChild("body");
         this.rightbackwing = this.body.getChild("rightbackwing");
         this.rightfrontwing = this.body.getChild("rightfrontwing");
@@ -34,8 +32,7 @@ public class DragonflyModel<E extends Dragonfly> extends EntityModel<E>
 
     }
 
-    public static LayerDefinition createBodyLayer()
-    {
+    public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
         PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 22.5F, -4.0F));
@@ -53,30 +50,24 @@ public class DragonflyModel<E extends Dragonfly> extends EntityModel<E>
     }
 
     @Override
-    public void setupAnim(E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
-    {
-        if (SSConfigs.clientConfig.randomizeDragonflySizes.get())
-        {
+    public void setupAnim(E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (SSConfigs.clientConfig.randomizeDragonflySizes.get()) {
             float value = SSConfigs.clientConfig.dragonflySizeModifier.get().floatValue();
             float newScale = (1.0F + (value * 2)) - (value * entity.getDragonflyScale());
             this.body.xScale = newScale;
             this.body.yScale = newScale;
             this.body.zScale = newScale;
-        }
-        else
-        {
+        } else {
             // If the config is false we reset the scale, this is done so the value
             // can be altered while the game is running.
-            if (this.body.xScale != 1F)
-            {
+            if (this.body.xScale != 1F) {
                 this.body.xScale = 1F;
                 this.body.yScale = 1F;
                 this.body.zScale = 1F;
             }
         }
 
-        if(entity.isMoving() || entity.getBlockStateOn().is(Blocks.AIR))
-        {
+        if (entity.isMoving() || entity.getBlockStateOn().is(Blocks.AIR)) {
             // Right Wings
             this.rightbackwing.zRot = Mth.cos((entity.tickCount + 0.5F) * 1.5F) * 0.6F;
             this.rightfrontwing.zRot = Mth.cos(entity.tickCount * 1.5F) * 0.6F;
@@ -87,8 +78,7 @@ public class DragonflyModel<E extends Dragonfly> extends EntityModel<E>
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
-    {
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int i2) {
+        body.render(poseStack, vertexConsumer, packedLight, packedOverlay);
     }
 }

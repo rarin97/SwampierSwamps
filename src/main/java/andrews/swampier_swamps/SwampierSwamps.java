@@ -5,67 +5,62 @@ import andrews.swampier_swamps.network.SSNetwork;
 import andrews.swampier_swamps.particles.DecayBubblesParticle;
 import andrews.swampier_swamps.particles.SwampGasParticle;
 import andrews.swampier_swamps.registry.*;
-import andrews.swampier_swamps.util.PotionRecipeChanger;
 import andrews.swampier_swamps.util.Reference;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
-@Mod(value = Reference.MODID)
-public class SwampierSwamps
-{
-    public SwampierSwamps()
-    {
-        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+@Mod(Reference.MODID)
+public class SwampierSwamps {
 
-        SSFrogVariants.FROG_VARIANTS.register(modEventBus);
-        SSItems.ITEMS.register(modEventBus);
-        SSBlocks.BLOCKS.register(modEventBus);
-        SSFeatures.FEATURES.register(modEventBus);
-        SSEntities.ENTITIES.register(modEventBus);
-        SSParticles.PARTICLES.register(modEventBus);
-        SSBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
-        SSTrunkPlacers.TRUNK_PLACERS.register(modEventBus);
-        SSTreeDecorators.TREE_DECORATORS.register(modEventBus);
-        SSPlacements.PLACEMENT_MODIFIER.register(modEventBus);
+    public SwampierSwamps(IEventBus eventBus, ModContainer modContainer, Dist dist) {
 
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
-        {
-            modEventBus.addListener(this::setupClient);
-            modEventBus.addListener(this::setupParticles);
-        });
-        modEventBus.addListener(this::setupCommon);
+        SSFrogVariants.FROG_VARIANTS.register(eventBus);
+        SSItems.ITEMS.register(eventBus);
+        SSBlocks.BLOCKS.register(eventBus);
+        SSFeatures.FEATURES.register(eventBus);
+        SSEntities.ENTITIES.register(eventBus);
+        SSParticles.PARTICLES.register(eventBus);
+        SSBlockEntities.BLOCK_ENTITY_TYPES.register(eventBus);
+        SSTrunkPlacers.TRUNK_PLACERS.register(eventBus);
+        SSTreeDecorators.TREE_DECORATORS.register(eventBus);
+        SSPlacements.PLACEMENT_MODIFIER.register(eventBus);
+
+        if (dist.isClient()) {
+            eventBus.addListener(this::setupClient);
+            eventBus.addListener(this::setupParticles);
+        }
+        eventBus.addListener(this::setupCommon);
+        eventBus.addListener(SSNetwork::register);
 
         SSConfigs.registerConfigs();
     }
 
-    void setupCommon(final FMLCommonSetupEvent event)
-    {
+    void setupCommon(final FMLCommonSetupEvent event) {
         event.enqueueWork(() ->
         {
-            PotionRecipeChanger.performChanges();
-            SSEntities.registerSpawnPlacements();
             SSFlammables.registerFlammables();
             SSCompostable.registerCompostable();
         });
-        //Thread Safe Stuff Bellow
-        SSNetwork.setupMessages();
     }
 
-    void setupClient(final FMLClientSetupEvent event)
-    {
-        event.enqueueWork(() -> {});
+    void setupClient(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+        });
         // Thread Safe Stuff Bellow
     }
 
-    void setupParticles(final RegisterParticleProvidersEvent event)
-    {
+    void setupParticles(final RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(SSParticles.DECAY_BUBBLES.get(), DecayBubblesParticle.Factory::new);
         event.registerSpriteSet(SSParticles.SWAMP_GAS.get(), SwampGasParticle.Factory::new);
+    }
+
+    public static ResourceLocation asResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(Reference.MODID, path);
     }
 }

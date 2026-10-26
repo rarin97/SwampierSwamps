@@ -2,14 +2,15 @@ package andrews.swampier_swamps.config.configs;
 
 import andrews.swampier_swamps.config.util.ConfigHelper;
 import andrews.swampier_swamps.config.util.ConfigHelper.ConfigValueListener;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
 
 public class SSClientConfig
 {
     public ConfigValueListener<Boolean> randomizeDragonflySizes;
     public ConfigValueListener<Double> dragonflySizeModifier;
 
-    public SSClientConfig(ForgeConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber)
+    public SSClientConfig(ModConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber)
     {
         builder.comment(" Client Settings for Swampier Swamps")
                 .push("Settings");

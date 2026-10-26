@@ -9,11 +9,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FrogRenderer.class)
-public class FrogRendererMixin
-{
+public class FrogRendererMixin {
     @Inject(method = "<init>", at = @At(value = "TAIL"))
-    public void inject(EntityRendererProvider.Context context, CallbackInfo ci)
-    {
-        ((FrogRenderer)(Object)this).addLayer(new FrogEyesLayer<>(((FrogRenderer)(Object)this)));
+    public void inject(EntityRendererProvider.Context context, CallbackInfo ci) {
+        ((FrogRenderer) (Object) this).addLayer(new FrogEyesLayer<>(((FrogRenderer) (Object) this)));
     }
 }

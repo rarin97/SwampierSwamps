@@ -16,15 +16,12 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
 
-public class CattailFeature extends Feature<ProbabilityFeatureConfiguration>
-{
-    public CattailFeature(Codec<ProbabilityFeatureConfiguration> codec)
-    {
+public class CattailFeature extends Feature<ProbabilityFeatureConfiguration> {
+    public CattailFeature(Codec<ProbabilityFeatureConfiguration> codec) {
         super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context)
-    {
+    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context) {
         boolean placedCattail = false;
         RandomSource randomSource = context.random();
         WorldGenLevel worldGenLevel = context.level();
@@ -35,22 +32,17 @@ public class CattailFeature extends Feature<ProbabilityFeatureConfiguration>
         int heightInWorld = worldGenLevel.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX() + xOffset, pos.getZ() + zOffset);
         BlockPos posAtTarget = new BlockPos(pos.getX() + xOffset, heightInWorld, pos.getZ() + zOffset);
 
-        if (worldGenLevel.getBlockState(posAtTarget).is(Blocks.WATER))
-        {
-            boolean probabilityCheck = randomSource.nextDouble() < (double)probabilityfeatureconfiguration.probability;
-            if (isValidCattailPosition(worldGenLevel, posAtTarget) && probabilityCheck)
-            {
+        if (worldGenLevel.getBlockState(posAtTarget).is(Blocks.WATER)) {
+            boolean probabilityCheck = randomSource.nextDouble() < (double) probabilityfeatureconfiguration.probability;
+            if (isValidCattailPosition(worldGenLevel, posAtTarget) && probabilityCheck) {
                 BlockState state = SSBlocks.CATTAIL.get().defaultBlockState();
                 boolean isTallCattail = worldGenLevel.getBlockState(posAtTarget.above(2)).is(Blocks.AIR) && worldGenLevel.getBlockState(posAtTarget.above()).is(Blocks.WATER);
-                if (isTallCattail)
-                {
+                if (isTallCattail) {
                     worldGenLevel.setBlock(posAtTarget, state, 2);
                     worldGenLevel.setBlock(posAtTarget.above(), state.setValue(CattailBlock.LOWER, false), 2);
                     worldGenLevel.setBlock(posAtTarget.above(2), state.setValue(BlockStateProperties.WATERLOGGED, false), 2);
                     worldGenLevel.setBlock(posAtTarget.above(3), state.setValue(BlockStateProperties.WATERLOGGED, false).setValue(CattailBlock.LOWER, false), 2);
-                }
-                else
-                {
+                } else {
                     worldGenLevel.setBlock(posAtTarget, state, 2);
                     worldGenLevel.setBlock(posAtTarget.above(), state.setValue(BlockStateProperties.WATERLOGGED, false), 2);
                     worldGenLevel.setBlock(posAtTarget.above(2), state.setValue(BlockStateProperties.WATERLOGGED, false).setValue(CattailBlock.LOWER, false), 2);
@@ -61,18 +53,16 @@ public class CattailFeature extends Feature<ProbabilityFeatureConfiguration>
         return placedCattail;
     }
 
-    private boolean isValidCattailPosition(WorldGenLevel level, BlockPos pos)
-    {
+    private boolean isValidCattailPosition(WorldGenLevel level, BlockPos pos) {
         FluidState fluidstate = level.getFluidState(pos);
         BlockState blockStateBelow1 = level.getBlockState(pos.below());
         BlockState blockStateAbove1 = level.getBlockState(pos.above());
         BlockState blockStateAbove2 = level.getBlockState(pos.above(2));
         BlockState blockStateAbove3 = level.getBlockState(pos.above(3));
 
-        if(fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == FluidState.AMOUNT_FULL)
-        {
+        if (fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == FluidState.AMOUNT_FULL) {
             return (!blockStateBelow1.is(SSBlocks.CATTAIL.get()) && blockStateAbove1.is(Blocks.WATER) && blockStateAbove2.is(Blocks.AIR) && blockStateAbove3.is(Blocks.AIR)) ||
-                   (!blockStateBelow1.is(SSBlocks.CATTAIL.get()) && blockStateAbove1.is(Blocks.AIR) && blockStateAbove2.is(Blocks.AIR));
+                    (!blockStateBelow1.is(SSBlocks.CATTAIL.get()) && blockStateAbove1.is(Blocks.AIR) && blockStateAbove2.is(Blocks.AIR));
         }
         return false;
     }

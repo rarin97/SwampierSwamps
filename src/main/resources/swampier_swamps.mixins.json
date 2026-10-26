@@ -5,7 +5,7 @@
   "package": "andrews.swampier_swamps.mixins",
   "refmap": "swampier_swamps.refmap.json",
   "mixins": [
-    "AbstractTreeGrowerMixin",
+    "TreeGrowerMixin",
     "BlockBehaviourMixin",
     "BlockMixin",
     "BlocksMixin",

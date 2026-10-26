@@ -8,16 +8,14 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 import java.util.Optional;
 
-public class FrogVariantConfig implements FeatureConfiguration
-{
+public class FrogVariantConfig implements FeatureConfiguration {
     public static final Codec<FrogVariantConfig> CODEC = RecordCodecBuilder.create((configInstance) -> configInstance.group(
             BuiltInRegistries.FROG_VARIANT.byNameCodec().optionalFieldOf("variant").forGetter(config -> config.variant)
     ).apply(configInstance, FrogVariantConfig::new));
 
     public final Optional<FrogVariant> variant;
 
-    public FrogVariantConfig(Optional<FrogVariant> variant)
-    {
+    public FrogVariantConfig(Optional<FrogVariant> variant) {
         this.variant = variant;
     }
 }

@@ -17,19 +17,16 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WaterlilyBlock.class)
-public class WaterlilyBlockMixin
-{
+public class WaterlilyBlockMixin {
     @ModifyVariable(method = "<init>", at = @At(value = "HEAD"), index = 1, argsOnly = true)
-    private static BlockBehaviour.Properties entityInside(BlockBehaviour.Properties value)
-    {
+    private static BlockBehaviour.Properties entityInside(BlockBehaviour.Properties value) {
         return value.randomTicks();
     }
 
     @Inject(method = "entityInside", at = @At(value = "TAIL"))
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, CallbackInfo ci)
-    {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (level instanceof ServerLevel && entity instanceof LivingEntity)
-            if(level.getBlockState(pos).is(((WaterlilyBlock)(Object)this)) && SSConfigs.commonConfig.doLilyPadsSink.get() && !(level.getBlockState(pos.below()).getBlock() instanceof IceBlock))
-                level.scheduleTick(pos, ((WaterlilyBlock)(Object)this), SSConfigs.commonConfig.lilyPadSinkTimeStage1.get());
+            if (level.getBlockState(pos).is(((WaterlilyBlock) (Object) this)) && SSConfigs.commonConfig.doLilyPadsSink.get() && !(level.getBlockState(pos.below()).getBlock() instanceof IceBlock))
+                level.scheduleTick(pos, ((WaterlilyBlock) (Object) this), SSConfigs.commonConfig.lilyPadSinkTimeStage1.get());
     }
 }

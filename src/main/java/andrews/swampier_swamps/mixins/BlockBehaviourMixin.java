@@ -23,46 +23,38 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mixin(BlockBehaviour.class)
-public class BlockBehaviourMixin
-{
-    @Unique AtomicBoolean isRandomTicking = new AtomicBoolean();
+public class BlockBehaviourMixin {
+    @Unique
+    AtomicBoolean isRandomTicking = new AtomicBoolean();
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
-    public void injectTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci)
-    {
-        if(!isRandomTicking.get())
-            if(state.is(Blocks.LILY_PAD))
+    public void injectTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci) {
+        if (!isRandomTicking.get())
+            if (state.is(Blocks.LILY_PAD))
                 level.setBlock(pos, SSBlocks.SINKING_LILY_PAD.get().defaultBlockState(), 2);
     }
 
     @Inject(method = "randomTick", at = @At(value = "HEAD"))
-    public void injectRandomTickHead(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci)
-    {
-        if (state.is(Blocks.DRIED_KELP_BLOCK))
-        {
+    public void injectRandomTickHead(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci) {
+        if (state.is(Blocks.DRIED_KELP_BLOCK)) {
             if (rand.nextInt(25) == 0)
-                if(level.getFluidState(pos.above()).getType() == Fluids.WATER && level.getFluidState(pos.above()).getAmount() == FluidState.AMOUNT_FULL)
+                if (level.getFluidState(pos.above()).getType() == Fluids.WATER && level.getFluidState(pos.above()).getAmount() == FluidState.AMOUNT_FULL)
                     level.setBlock(pos, SSBlocks.DECAYING_KELP.get().defaultBlockState(), 2);
         }
 
-        if(state.is(Blocks.LILY_PAD))
-        {
+        if (state.is(Blocks.LILY_PAD)) {
             // We use this to prevent the code inside tick() from running without canceling randomTick
             isRandomTicking.set(true);
 
             // We reduce how often the Block attempts to grow
-            if (rand.nextInt(25) == 0)
-            {
+            if (rand.nextInt(25) == 0) {
                 int configValue = SSConfigs.commonConfig.shouldLilyPadsGrow.get();
-                if ((configValue == 1 && level.getBiome(pos).is(SSTags.Biomes.CAN_LILY_PAD_GROW_IN)) || configValue == 2)
-                {
+                if ((configValue == 1 && level.getBiome(pos).is(SSTags.Biomes.CAN_LILY_PAD_GROW_IN)) || configValue == 2) {
                     boolean canGrow = true;
                     int lilyPadLimiter = 2; // We use this to determine if there are less than a given amount of Big Lily Pads around
                     // We check 8 Blocks in all directions
-                    for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-8, -1, -8), pos.offset(8, 1, 8)))
-                    {
-                        if (level.getBlockState(blockpos).is(SSBlocks.BIG_LILY_PAD.get()) && level.getBlockState(blockpos).getValue(BigLilyPadBlock.LILY_PAD_PART) == 0)
-                        {
+                    for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-8, -1, -8), pos.offset(8, 1, 8))) {
+                        if (level.getBlockState(blockpos).is(SSBlocks.BIG_LILY_PAD.get()) && level.getBlockState(blockpos).getValue(BigLilyPadBlock.LILY_PAD_PART) == 0) {
                             --lilyPadLimiter;
                             if (lilyPadLimiter <= 0)
                                 canGrow = false; // If there are too many Lily Pads we prevent it from growing
@@ -71,8 +63,7 @@ public class BlockBehaviourMixin
 
                     // We get a random Rotation for the Big Lily Pad
                     Direction direction;
-                    switch (rand.nextInt(4))
-                    {
+                    switch (rand.nextInt(4)) {
                         default -> direction = Direction.NORTH;
                         case 1 -> direction = Direction.SOUTH;
                         case 2 -> direction = Direction.WEST;
@@ -93,8 +84,7 @@ public class BlockBehaviourMixin
                         canGrow = false;
 
                     // If everything went well we grow the Lily Pad into a Big one
-                    if (canGrow)
-                    {
+                    if (canGrow) {
                         level.setBlock(pos, SSBlocks.BIG_LILY_PAD.get().defaultBlockState().setValue(BigLilyPadBlock.FACING, direction).setValue(BigLilyPadBlock.LILY_PAD_PART, 0), 2);
                         level.setBlock(pos.relative(direction), SSBlocks.BIG_LILY_PAD.get().defaultBlockState().setValue(BigLilyPadBlock.FACING, direction).setValue(BigLilyPadBlock.LILY_PAD_PART, 1), 2);
                         level.setBlock(pos.relative(direction.getClockWise()), SSBlocks.BIG_LILY_PAD.get().defaultBlockState().setValue(BigLilyPadBlock.FACING, direction).setValue(BigLilyPadBlock.LILY_PAD_PART, 2), 2);
@@ -106,8 +96,7 @@ public class BlockBehaviourMixin
     }
 
     @Inject(method = "randomTick", at = @At(value = "TAIL"))
-    public void injectRandomTickTail(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci)
-    {
+    public void injectRandomTickTail(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci) {
         isRandomTicking.set(false);
     }
 }

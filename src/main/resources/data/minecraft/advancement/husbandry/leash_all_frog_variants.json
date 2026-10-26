@@ -10,7 +10,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:white_variant"
               }
             }
@@ -33,7 +33,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:magenta_variant"
               }
             }
@@ -56,7 +56,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:light_blue_variant"
               }
             }
@@ -79,7 +79,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:yellow_variant"
               }
             }
@@ -102,7 +102,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:lime_variant"
               }
             }
@@ -125,7 +125,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:pink_variant"
               }
             }
@@ -148,7 +148,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:gray_variant"
               }
             }
@@ -171,7 +171,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:cyan_variant"
               }
             }
@@ -194,7 +194,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:purple_variant"
               }
             }
@@ -217,7 +217,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:blue_variant"
               }
             }
@@ -240,7 +240,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:brown_variant"
               }
             }
@@ -263,7 +263,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:red_variant"
               }
             }
@@ -286,7 +286,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "swampier_swamps:black_variant"
               }
             }
@@ -309,7 +309,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "minecraft:cold"
               }
             }
@@ -332,7 +332,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "minecraft:temperate"
               }
             }
@@ -355,7 +355,7 @@
             "predicate": {
               "type": "minecraft:frog",
               "type_specific": {
-                "type": "frog",
+                "type": "minecraft:frog",
                 "variant": "minecraft:warm"
               }
             }
@@ -378,7 +378,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "minecraft:lead"
+      "id": "minecraft:lead"
     },
     "show_toast": true,
     "title": {

@@ -16,15 +16,12 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
 
-public class BigLilyPadFeature extends Feature<ProbabilityFeatureConfiguration>
-{
-    public BigLilyPadFeature(Codec<ProbabilityFeatureConfiguration> codec)
-    {
+public class BigLilyPadFeature extends Feature<ProbabilityFeatureConfiguration> {
+    public BigLilyPadFeature(Codec<ProbabilityFeatureConfiguration> codec) {
         super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context)
-    {
+    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context) {
         boolean placedBigLilyPad = false;
         RandomSource randomSource = context.random();
         WorldGenLevel worldGenLevel = context.level();
@@ -37,16 +34,14 @@ public class BigLilyPadFeature extends Feature<ProbabilityFeatureConfiguration>
     
 //      if (worldGenLevel.getBlockState(posAtTarget.below()).is(Blocks.WATER) && worldGenLevel.getBlockState(posAtTarget).is(Blocks.AIR));
 //      {
-        Direction direction = switch (randomSource.nextInt(4))
-        {
+        Direction direction = switch (randomSource.nextInt(4)) {
             default -> Direction.NORTH;
             case 1 -> Direction.SOUTH;
             case 2 -> Direction.WEST;
             case 3 -> Direction.EAST;
         };
         boolean probabilityCheck = randomSource.nextDouble() < (double) probabilityfeatureconfiguration.probability;
-        if (isValidPosition(worldGenLevel, posAtTarget, direction) && probabilityCheck)
-        {
+        if (isValidPosition(worldGenLevel, posAtTarget, direction) && probabilityCheck) {
             BlockState state = SSBlocks.BIG_LILY_PAD.get().defaultBlockState();
             worldGenLevel.setBlock(posAtTarget, state.setValue(BigLilyPadBlock.FACING, direction).setValue(BigLilyPadBlock.LILY_PAD_PART, 0), 2);
             worldGenLevel.setBlock(posAtTarget.relative(direction), state.setValue(BigLilyPadBlock.FACING, direction).setValue(BigLilyPadBlock.LILY_PAD_PART, 1), 2);
@@ -58,12 +53,11 @@ public class BigLilyPadFeature extends Feature<ProbabilityFeatureConfiguration>
         return placedBigLilyPad;
     }
 
-    private boolean isValidPosition(WorldGenLevel level, BlockPos pos, Direction direction)
-    {
+    private boolean isValidPosition(WorldGenLevel level, BlockPos pos, Direction direction) {
         for (int i = 0; i < 4; i++) {
             FluidState fluidState = level.getFluidState(pos.below());
             BlockState blockStateAbove = level.getBlockState(pos);
-            if(!(fluidState.is(FluidTags.WATER) && fluidState.getAmount() == FluidState.AMOUNT_FULL && blockStateAbove.is(Blocks.AIR))) {
+            if (!(fluidState.is(FluidTags.WATER) && fluidState.getAmount() == FluidState.AMOUNT_FULL && blockStateAbove.is(Blocks.AIR))) {
                 return false;
             }
             pos = pos.relative(direction);

@@ -1,9 +1,11 @@
 {
   "type": "minecraft:campfire_cooking",
-  "cookingtime": 600,
-  "experience": 0.35,
   "ingredient": {
     "item": "swampier_swamps:frog_leg"
   },
-  "result": "swampier_swamps:cooked_frog_leg"
+  "result": {
+    "id": "swampier_swamps:cooked_frog_leg"
+  },
+  "experience": 0.35,
+  "cookingtime": 600
 }

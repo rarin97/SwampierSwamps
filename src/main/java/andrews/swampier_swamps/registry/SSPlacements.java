@@ -2,22 +2,21 @@ package andrews.swampier_swamps.registry;
 
 import andrews.swampier_swamps.level.features.decorators.MudPuddlePlacer;
 import andrews.swampier_swamps.util.Reference;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class SSPlacements
-{
+import java.util.function.Supplier;
+
+public class SSPlacements {
     public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIER = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, Reference.MODID);
 
-    public static final RegistryObject<PlacementModifierType<MudPuddlePlacer>> MUD_PUDDLE_PLACER = PLACEMENT_MODIFIER.register("mud_puddle_placer", () -> codecHelper(MudPuddlePlacer.CODEC));
+    public static final Supplier<PlacementModifierType<MudPuddlePlacer>> MUD_PUDDLE_PLACER = PLACEMENT_MODIFIER.register("mud_puddle_placer", () -> codecHelper(MudPuddlePlacer.CODEC));
 
     // We need this little helper because the compiler will scream at us if we used () -> directly.
-    private static <P extends PlacementModifier> PlacementModifierType<P> codecHelper(Codec<P> codec)
-    {
+    private static <P extends PlacementModifier> PlacementModifierType<P> codecHelper(MapCodec<P> codec) {
         return () -> codec;
     }
 }

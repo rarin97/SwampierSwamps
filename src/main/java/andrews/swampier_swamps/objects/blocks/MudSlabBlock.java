@@ -11,22 +11,18 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class MudSlabBlock extends SlabBlock
-{
+public class MudSlabBlock extends SlabBlock {
     protected static final VoxelShape TOP_SLAB = Block.box(0.0D, 8.0D, 0.0D, 16.0D, 14.0D, 16.0D);
     protected static final VoxelShape BOTTOM_SLAB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D);
     protected static final VoxelShape DOUBLE_SLAB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
 
-    public MudSlabBlock(BlockBehaviour.Properties properties)
-    {
+    public MudSlabBlock(BlockBehaviour.Properties properties) {
         super(properties);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
-    {
-        return switch (state.getValue(TYPE))
-        {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(TYPE)) {
             case TOP -> TOP_SLAB;
             case BOTTOM -> BOTTOM_SLAB;
             case DOUBLE -> DOUBLE_SLAB;
@@ -34,26 +30,22 @@ public class MudSlabBlock extends SlabBlock
     }
 
     @Override
-    public VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos)
-    {
+    public VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         return Shapes.block();
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
-    {
+    public VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         return Shapes.block();
     }
 
     @Override
-    public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos pos, PathComputationType pathComputationType)
-    {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 
     @Override
-    public float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos)
-    {
+    public float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         return 1.0F;
     }
 }

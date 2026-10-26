@@ -21,36 +21,28 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class SmallLilyPadBlock extends WaterlilyBlock
-{
+public class SmallLilyPadBlock extends WaterlilyBlock {
     private static final VoxelShape AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.5D, 16.0D);
 
-    public SmallLilyPadBlock(Properties properties)
-    {
+    public SmallLilyPadBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
-    {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return AABB;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
-    {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
         // We reduce how often the Block attempts to grow
-        if (rand.nextInt(25) == 0)
-        {
+        if (rand.nextInt(25) == 0) {
             int configValue = SSConfigs.commonConfig.shouldLilyPadsGrow.get();
-            if ((configValue == 1 && level.getBiome(pos).is(SSTags.Biomes.CAN_LILY_PAD_GROW_IN)) || configValue == 2)
-            {
+            if ((configValue == 1 && level.getBiome(pos).is(SSTags.Biomes.CAN_LILY_PAD_GROW_IN)) || configValue == 2) {
                 int lilyPadLimiter = 5; // We use this to determine if there are less than a given amount of Lily Pads around
                 // We check 5 Blocks in all directions
-                for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-5, -1, -5), pos.offset(5, 1, 5)))
-                {
-                    if (level.getBlockState(blockpos).is(Blocks.LILY_PAD))
-                    {
+                for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-5, -1, -5), pos.offset(5, 1, 5))) {
+                    if (level.getBlockState(blockpos).is(Blocks.LILY_PAD)) {
                         --lilyPadLimiter;
                         if (lilyPadLimiter <= 0)
                             return; // If there are too many Lily Pads we return
@@ -63,16 +55,14 @@ public class SmallLilyPadBlock extends WaterlilyBlock
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
-    {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         super.entityInside(state, level, pos, entity);
         if (level instanceof ServerLevel && entity instanceof Boat)
             level.destroyBlock(new BlockPos(pos), false, entity);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context)
-    {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         Level level = context.getLevel();
         BlockState state = level.getBlockState(context.getClickedPos().below());
         FluidState fluidState = level.getFluidState(context.getClickedPos().below());
@@ -84,8 +74,7 @@ public class SmallLilyPadBlock extends WaterlilyBlock
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
-    {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos posBelow = pos.below();
 //        if (state.getBlock() == this)
 //            return level.getBlockState(posBelow).canSustainPlant(level, posBelow, Direction.UP, this);
@@ -94,8 +83,7 @@ public class SmallLilyPadBlock extends WaterlilyBlock
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos)
-    {
+    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
         FluidState fluidState = level.getFluidState(pos);
         FluidState fluidStateAbove = level.getFluidState(pos.above());
         return (fluidState.getType() == Fluids.WATER || state.getBlock() instanceof IceBlock) && fluidStateAbove.getType() == Fluids.EMPTY;

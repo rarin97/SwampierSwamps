@@ -13,47 +13,41 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
-@Mod.EventBusSubscriber(modid = Reference.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientEvents
-{
+@EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
+public class ClientEvents {
     @SubscribeEvent
-    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event)
-    {
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(DragonflyModel.LAYER, DragonflyModel::createBodyLayer);
     }
 
     @SubscribeEvent
-    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
-    {
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(SSEntities.DRAGONFLY.get(), DragonflyRenderer::new);
         event.registerEntityRenderer(SSEntities.SWAMP_GAS.get(), SwampGasRenderer::new);
     }
 
     @SubscribeEvent
-    public static void registerBlockColor(RegisterColorHandlersEvent.Block event)
-    {
+    public static void registerBlockColor(RegisterColorHandlersEvent.Block event) {
         event.register((state, level, pos, tintIndex) -> isNotNull(level, pos) ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(), SSBlocks.SWAMP_VINE.get());
         event.register((state, level, pos, tintIndex) -> isNotNull(level, pos) ? 2129968 : 7455580, SSBlocks.SINKING_LILY_PAD.get(), SSBlocks.BIG_LILY_PAD.get(), SSBlocks.SMALL_LILY_PAD.get());
     }
 
     @SubscribeEvent
-    public static void registerBlockColor(RegisterColorHandlersEvent.Item event)
-    {
+    public static void registerBlockColor(RegisterColorHandlersEvent.Item event) {
         BlockColors blockcolors = event.getBlockColors();
         event.register((stack, tintIndex) -> {
-            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
+            BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return blockcolors.getColor(blockstate, null, null, tintIndex);
         }, SSBlocks.SWAMP_VINE.get(), SSBlocks.BIG_LILY_PAD.get(), SSBlocks.SMALL_LILY_PAD.get());
     }
 
-    private static boolean isNotNull(BlockAndTintGetter level, BlockPos pos)
-    {
+    private static boolean isNotNull(BlockAndTintGetter level, BlockPos pos) {
         return level != null && pos != null;
     }
 }

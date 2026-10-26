@@ -1,45 +1,25 @@
 package andrews.swampier_swamps.network.client;
 
+import andrews.swampier_swamps.SwampierSwamps;
 import andrews.swampier_swamps.network.client.util.ClientPacketHandlerClass;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public record MessageClientSplashParticles(BlockPos pos) implements CustomPacketPayload {
+    public static final Type<MessageClientSplashParticles> TYPE = new Type<>(SwampierSwamps.asResource("splash_particles"));
 
-public class MessageClientSplashParticles
-{
-    public BlockPos pos;
+    public static final StreamCodec<FriendlyByteBuf, MessageClientSplashParticles> STREAM_CODEC =
+            StreamCodec.composite(BlockPos.STREAM_CODEC, MessageClientSplashParticles::pos, MessageClientSplashParticles::new);
 
-    public MessageClientSplashParticles(BlockPos pos)
-    {
-        this.pos = pos;
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public void serialize(FriendlyByteBuf buf)
-    {
-        buf.writeBlockPos(this.pos);
-    }
-
-    public static MessageClientSplashParticles deserialize(FriendlyByteBuf buf)
-    {
-        BlockPos pos = buf.readBlockPos();
-        return new MessageClientSplashParticles(pos);
-    }
-
-    public static void handle(MessageClientSplashParticles message, Supplier<NetworkEvent.Context> ctx)
-    {
-        NetworkEvent.Context context = ctx.get();
-        if(context.getDirection().getReceptionSide() == LogicalSide.CLIENT)
-        {
-            context.enqueueWork(() ->
-            {
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandlerClass.handleSpawnSplashParticles(message, ctx));
-            });
-            context.setPacketHandled(true);
-        }
+    public static void handle(MessageClientSplashParticles message, IPayloadContext context) {
+        context.enqueueWork(() -> ClientPacketHandlerClass.handleSpawnSplashParticles(message));
     }
 }

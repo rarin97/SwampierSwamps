@@ -14,24 +14,24 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ShootTongue.class)
-public class ShootTongueMixin
-{
-    @Shadow private boolean canPathfindToTarget(Frog frog, LivingEntity target) {return false;}
-    @Shadow private void addUnreachableTargetToMemory(Frog frog, LivingEntity target) {}
+public class ShootTongueMixin {
+    @Shadow
+    private boolean canPathfindToTarget(Frog frog, LivingEntity target) {
+        return false;
+    }
+
+    @Shadow
+    private void addUnreachableTargetToMemory(Frog frog, LivingEntity target) {
+    }
 
     @Inject(method = "checkExtraStartConditions(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/animal/frog/Frog;)Z", at = @At(value = "RETURN"), cancellable = true)
-    public void injectCheckExtraStartConditions(ServerLevel level, Frog frog, CallbackInfoReturnable<Boolean> cir)
-    {
-        if(frog.hasCustomName())
-        {
-            if (frog.getCustomName().getString().equals("Swallow Me Waldo") && SSConfigs.commonConfig.allowWaldo.get())
-            {
-                if(frog.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).isPresent())
-                {
+    public void injectCheckExtraStartConditions(ServerLevel level, Frog frog, CallbackInfoReturnable<Boolean> cir) {
+        if (frog.hasCustomName()) {
+            if (frog.getCustomName().getString().equals("Swallow Me Waldo") && SSConfigs.commonConfig.allowWaldo.get()) {
+                if (frog.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).isPresent()) {
                     LivingEntity target = frog.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).get();
                     boolean canPathFind = canPathfindToTarget(frog, target);
-                    if (!canPathFind)
-                    {
+                    if (!canPathFind) {
                         frog.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
                         addUnreachableTargetToMemory(frog, target);
                     }
